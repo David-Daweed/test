@@ -1,0 +1,29 @@
+name: test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.extract_version.outputs.VERSION }}
+    steps:
+      - name: Extract version from build.gradle
+        id: extract_version
+        run: echo "VERSION=20" >> "$GITHUB_OUTPUT"
+  release:
+    name: Release APK
+    needs: apk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.apk.outputs.VERSION }}
+        with:
+          tag_name: "v${{ VERSION }}"  
+          release_name: "${{ env.BRANCH_NAME }}-v${{ VERSION }}" 
