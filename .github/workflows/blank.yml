@@ -20,10 +20,7 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ needs.apk.outputs.VERSION }}
         with:
-          tag_name: "v${{ VERSION }}"  
-          release_name: "${{ env.BRANCH_NAME }}-v${{ VERSION }}" 
+          run: echo "v${{ VERSION }}"  
