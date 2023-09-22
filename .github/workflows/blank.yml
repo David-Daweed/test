@@ -22,5 +22,4 @@ jobs:
         id: create_release
         env:
           VERSION: ${{ needs.apk.outputs.VERSION }}
-        with:
-          run: echo "v${{ VERSION }}"  
+        run: echo "v${{ VERSION }}"  
